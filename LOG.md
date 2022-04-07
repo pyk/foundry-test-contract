@@ -267,3 +267,108 @@ Kita coba pake 0.8.10 ya
 
 hasilnya juga sama, aku verify di etherscan juga gabisa padahal contract lain dengan versi yang sama bisa.
 deployed bytecodenya beda kayanya
+
+trying to debug this
+
+    impl<'a, T: ArtifactOutput> PreprocessedState<'a, T> {
+        /// advance to the next state by compiling all sources
+        fn compile(self) -> Result<CompiledState<'a, T>> {
+            let PreprocessedState { sources, cache, sparse_output } = self;
+            println!("solc config settings: {:#?}", cache.project().solc_config.settings);
+            println!("solc config paths: {:#?}", cache.project().paths);
+            println!("sparse_output: {:#?}", sparse_output);
+            println!("cache graph: {:#?}", cache.graph());
+            let output = sources.compile(
+                &cache.project().solc_config.settings,
+                &cache.project().paths,
+                sparse_output,
+                cache.graph(),
+            )?;
+
+            Ok(CompiledState { output, cache })
+        }
+    }
+
+but no information
+
+    forge create --names --sizes --rpc-url https://rinkeby.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161 \
+        --private-key 90a537dc9799040251fcdec3ea69ea043f6d0b245353039f16c2742bf2c8db56 \
+        --optimize \
+        --optimize-runs 200 \
+        src/ForgeDeploymentTest.sol:ForgeDeploymentTest > forge.log
+
+yg dibutuhin etherscan
+
+    0x6080604052348015600f57600080fd5b50604e80601d6000396000f3fe6080604052348015600f57600080fd5b506004361060285760003560e01c8063f8a8fd6d14602d575b600080fd5b602a60405190815260200160405180910390f3fea164736f6c634300080a000a
+
+output dari compiler
+
+    6080604052348015600f57600080fd5b50604e80601d6000396000f3fe6080604052348015600f57600080fd5b506004361060285760003560e01c8063f8a8fd6d14602d575b600080fd5b602a60405190815260200160405180910390f3fea164736f6c634300080a000a
+
+output dari compiler sama persis kenapa di etherscan error ya
+
+    Sorry! The Compiled Contract ByteCode for '' does NOT match the Contract Creation Code for Address 0x3a5189fe4399e3f77c6f3cb345f5d6155c97e454.
+    Unable to Verify Contract Source Code.
+
+Rinkeby etherscan
+
+    Compiler debug log:
+    Note: Contract was created during TxHash# 0x2ca1bac911b2be7f54d1fbccc28a77bef26f46ea2dd0248bb0efe50ba780d30d
+    Result: Does not match the input creation bytecode found at this address
+
+    Sorry! The Compiled Contract ByteCode for '' does NOT match the Contract Creation Code for Address 0x3a5189fe4399e3f77c6f3cb345f5d6155c97e454.
+    Unable to Verify Contract Source Code.
+
+
+    Compiler Version: v0.8.10+commit.fc410830
+    Optimization Enabled: True
+    Runs: 200
+    ByteCode (what we are looking for #3):
+    0x6080604052348015600f57600080fd5b50604e80601d6000396000f3fe6080604052348015600f57600080fd5b506004361060285760003560e01c8063f8a8fd6d14602d575b600080fd5b602a60405190815260200160405180910390f3fea164736f6c634300080a000a
+    - vs what we got -
+    Your Compiled Bytecode + Constructor Argument if any (what was provided after compilation):
+    0x
+
+tai lah
+
+```json
+{
+    "language": "Solidity",
+    "sources": {
+        "/Users/pyk/github/pyk/foundry-test-contract/src/ForgeDeploymentTest.sol": {
+            "content": "// ███████  ██████  ██████   ██████  ███████\n// ██      ██    ██ ██   ██ ██       ██\n// █████   ██    ██ ██████  ██   ███ █████\n// ██      ██    ██ ██   ██ ██    ██ ██\n// ██       ██████  ██   ██  ██████  ███████\n// SPDX-License-Identifier: UNLICENSED\npragma solidity 0.8.10;\n\ncontract ForgeDeploymentTest {\n    function test() external pure returns (uint256) {\n        return 42;\n    }\n}\n"
+        }
+    },
+    "settings": {
+        "remappings": [
+            "src/=/Users/pyk/github/pyk/foundry-test-contract/src"
+        ],
+        "optimizer": {
+            "enabled": true,
+            "runs": 200
+        },
+        "evmVersion": "homestead",
+        "metadata": {
+            "useLiteralContent": true,
+            "bytecodeHash": "none"
+        },
+        "outputSelection": {
+            "*": {
+                "*": [
+                    "abi",
+                    "evm.bytecode",
+                    "evm.deployedBytecode",
+                    "evm.methodIdentifiers"
+                ],
+                "": [
+                    "ast",
+                    "id"
+                ]
+            },
+            "def": {
+                "ForgeDeploymentTest": [ "abi", "evm.bytecode.opcodes" ]
+            }
+          }
+    }
+}
+```
