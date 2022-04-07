@@ -136,3 +136,134 @@ this https://github.com/gakonst/foundry/blob/master/cli/src/compile.rs#L38
 
 execute this https://github.com/gakonst/ethers-rs/blob/15305eb6f5c361d95614fd9c5b3d90c2e7d31425/ethers-solc/src/lib.rs#L207-L221
 
+harus nulis debug disini https://github.com/gakonst/ethers-rs/blob/15305eb6f5c361d95614fd9c5b3d90c2e7d31425/ethers-solc/src/compile/project.rs#L242-L246
+
+Local ethers patch turn on using latest version of ethers-solc
+
+    forge create --names --sizes --rpc-url https://rinkeby.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161 \
+        --private-key 90a537dc9799040251fcdec3ea69ea043f6d0b245353039f16c2742bf2c8db56 \
+        --optimize \
+        --optimize-runs 200 \
+        src/ForgeDeploymentTest.sol:ForgeDeploymentTest
+
+Optimization confignya dah bener
+
+    ✦ forge create --names --sizes --rpc-url https://rinkeby.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161 \
+            --private-key 90a537dc9799040251fcdec3ea69ea043f6d0b245353039f16c2742bf2c8db56 \
+            --optimize \
+            --optimize-runs 200 \
+            src/ForgeDeploymentTest.sol:ForgeDeploymentTest
+    names: true
+    sizes: true
+    [⠔] Compiling...solc config settings: Settings {
+        stop_after: None,
+        remappings: [],
+        optimizer: Optimizer {
+            enabled: Some(
+                true,
+            ),
+            runs: Some(
+                200,
+            ),
+            details: None,
+        },
+        metadata: Some(
+            SettingsMetadata {
+                use_literal_content: None,
+                bytecode_hash: Some(
+                    None,
+                ),
+            },
+        ),
+        output_selection: OutputSelection(
+            {
+                "*": {
+                    "": [
+                        "ast",
+                    ],
+                    "*": [
+                        "abi",
+                        "evm.bytecode",
+                        "evm.deployedBytecode",
+                        "evm.methodIdentifiers",
+                    ],
+                },
+            },
+        ),
+        evm_version: Some(
+            London,
+        ),
+        via_ir: None,
+        libraries: {},
+    }
+    [⠒] Compiling...
+    No files changed, compilation skipped
+    Deployer: 0x31c618276f7a4db1c01c22eb56f44fe1edb1af36
+    Deployed to: 0x7e40256b4b08ef8484d6d3ad70f75d25e1a5fb47
+    Transaction hash: 0xe79c901858cde35371a2c3b4b0045c64e79fbb997c8a405683209e49f856d535
+
+Optimization dah bener cuy
+
+Wait ternyata ga support london cuy rinkeby
+
+ternyata ga support london cuy arbiscannya.
+
+
+Kita coba pake 0.8.10 ya
+
+    ❯ forge create --names --sizes --rpc-url https://rinkeby.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161 \
+        --private-key 90a537dc9799040251fcdec3ea69ea043f6d0b245353039f16c2742bf2c8db56 \
+        --optimize \
+        --optimize-runs 200 \
+        src/ForgeDeploymentTest.sol:ForgeDeploymentTest
+    names: true
+    sizes: true
+    [⠢] Compiling...solc config settings: Settings {
+        stop_after: None,
+        remappings: [],
+        optimizer: Optimizer {
+            enabled: Some(
+                true,
+            ),
+            runs: Some(
+                200,
+            ),
+            details: None,
+        },
+        metadata: Some(
+            SettingsMetadata {
+                use_literal_content: None,
+                bytecode_hash: Some(
+                    None,
+                ),
+            },
+        ),
+        output_selection: OutputSelection(
+            {
+                "*": {
+                    "": [
+                        "ast",
+                    ],
+                    "*": [
+                        "abi",
+                        "evm.bytecode",
+                        "evm.deployedBytecode",
+                        "evm.methodIdentifiers",
+                    ],
+                },
+            },
+        ),
+        evm_version: Some(
+            London,
+        ),
+        via_ir: None,
+        libraries: {},
+    }
+    [⠆] Compiling...
+    No files changed, compilation skipped
+    Deployer: 0x31c618276f7a4db1c01c22eb56f44fe1edb1af36
+    Deployed to: 0xdb2be5eb68a10a367027de66102edd04447ed383
+    Transaction hash: 0x9b6a8d4cbafb837998121efaa1b2e493153df62b72c424e1dc54e0a2906fe82b
+
+hasilnya juga sama, aku verify di etherscan juga gabisa padahal contract lain dengan versi yang sama bisa.
+deployed bytecodenya beda kayanya
