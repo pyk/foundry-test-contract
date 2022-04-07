@@ -13,7 +13,7 @@
             "enabled": true,
             "runs": 200
         },
-        "evmVersion": "homestead",
+        "evmVersion": "london",
         "metadata": {
             "useLiteralContent": true,
             "bytecodeHash": "none"
