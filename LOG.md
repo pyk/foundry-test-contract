@@ -469,3 +469,12 @@ https://rinkeby.etherscan.io/sourcecode-demo.html
 https://rinkeby.etherscan.io/address/0xc1873d26677ff30ed2b43861582ebf8da0b5d943#code
 
 mantaapp
+
+## Standard Input JSON via Foundry
+
+Step by step:
+
+1. `forge verify-contract` executed
+2. Create `solidity-standard-json-input`
+3. Request to etherscan API using provided input
+
