@@ -1,0 +1,39 @@
+{
+    "language": "Solidity",
+    "sources": {
+        "contracts/Test.sol": {
+            "content": "// ███████  ██████  ██████   ██████  ███████\n// ██      ██    ██ ██   ██ ██       ██\n// █████   ██    ██ ██████  ██   ███ █████\n// ██      ██    ██ ██   ██ ██    ██ ██\n// ██       ██████  ██   ██  ██████  ███████\n// SPDX-License-Identifier: UNLICENSED\npragma solidity 0.8.10;\n\ncontract ForgeDeploymentTest {\n    function test() external pure returns (uint256) {\n        return 66;\n    }\n}\n"
+        }
+    },
+    "settings": {
+        "optimizer": {
+            "enabled": true,
+            "runs": 200
+        },
+        "outputSelection": {
+            "*": {
+                "": [
+                    "ast"
+                ],
+                "*": [
+                    "abi",
+                    "metadata",
+                    "devdoc",
+                    "userdoc",
+                    "evm.legacyAssembly",
+                    "evm.bytecode",
+                    "evm.deployedBytecode",
+                    "evm.methodIdentifiers",
+                    "evm.gasEstimates",
+                    "evm.assembly"
+                ]
+            }
+        },
+		"evmVersion": "london",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"remappings": []
+    }
+}

@@ -372,3 +372,100 @@ tai lah
     }
 }
 ```
+
+one last time try to use "ipfs"
+
+    6080604052348015600f57600080fd5b50607780601d6000396000f3fe6080604052348015600f57600080fd5b506004361060285760003560e01c8063f8a8fd6d14602d575b600080fd5b602a60405190815260200160405180910390f3fea2646970667358221220132bbffb6c666bb2676035f1310348aa6c1232b8a82bd394cd84ffc50023305164736f6c634300080a0033
+
+etherscan
+
+    0x6080604052348015600f57600080fd5b506004361060285760003560e01c8063f8a8fd6d14602d575b600080fd5b602a60405190815260200160405180910390f3fea26469706673582212205292a5deafb3d0deef5cf0c8097191b5036e105e59846924df8c5faa09a4742064736f6c634300080a0033
+
+etherscan
+
+https://rinkeby.etherscan.io/address/0x60c9be8c7f6288edf37df974e827c07dbbdd7b54
+
+    0x6080604052348015600f57600080fd5b506004361060285760003560e01c8063f8a8fd6d14602d575b600080fd5b602a60405190815260200160405180910390f3fea26469706673582212205292a5deafb3d0deef5cf0c8097191b5036e105e59846924df8c5faa09a4742064736f6c634300080a0033
+
+local
+
+    ~/.svm/0.8.10/solc-0.8.10 --standard-json standard-json-input.json
+
+    6080604052348015600f57600080fd5b50607780601d6000396000f3fe6080604052348015600f57600080fd5b506004361060285760003560e01c8063f8a8fd6d14602d575b600080fd5b602a60405190815260200160405180910390f3fea2646970667358221220132bbffb6c666bb2676035f1310348aa6c1232b8a82bd394cd84ffc50023305164736f6c634300080a0033
+
+local
+
+    6080604052348015600f57600080fd5b50607780601d6000396000f3fe6080604052348015600f57600080fd5b506004361060285760003560e01c8063f8a8fd6d14602d575b600080fd5b602a60405190815260200160405180910390f3fea26469706673582212209b6cc88936a7a457eda8bb8b631d0b7d5de0cb3c400002e893ffb4191c6d13a964736f6c634300080a0033
+
+    6080604052348015600f57600080fd5b50607780601d6000396000f3fe6080604052348015600f57600080fd5b506004361060285760003560e01c8063f8a8fd6d14602d575b600080fd5b602a60405190815260200160405180910390f3fea26469706673582212209b6cc88936a7a457eda8bb8b631d0b7d5de0cb3c400002e893ffb4191c6d13a964736f6c634300080a0033
+
+bytehash ga ngefek kayanya?
+
+## Deploy with ethers
+
+Install ethers
+
+    npm install ethers
+
+javascript:
+
+```js
+const { ethers } = require("ethers");
+
+const abi = [
+    "function test() view returns (uint)"
+];
+
+const bytecode = "6080604052348015600f57600080fd5b50604e80601d6000396000f3fe6080604052348015600f57600080fd5b506004361060285760003560e01c8063f8a8fd6d14602d575b600080fd5b602a60405190815260200160405180910390f3fea164736f6c634300080a000a";
+
+
+(async () => {
+    try {
+        // Create signer first
+        const provider = new ethers.providers.JsonRpcProvider("https://rinkeby.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161", 4);
+        const signer = new ethers.Wallet("90a537dc9799040251fcdec3ea69ea043f6d0b245353039f16c2742bf2c8db56", provider);
+        const factory = new ethers.ContractFactory(abi, bytecode, signer);
+        const contract = await factory.deploy();
+        await contract.deployTransaction.wait();
+        console.log(contract);
+        console.log('Deployment successful.');
+        console.log('Address:', contract.address);
+    } catch (e) {
+        console.log(e.message)
+    }
+})()
+```
+
+result
+
+    Deployment successful.
+    Address: 0x114025c788BE8F9e9B729182Fb75113bBF70dFC0
+
+Ternyata tetep gabisa cuy pake solc dan ethers
+
+Remix is succesfully verified lmewo
+
+https://rinkeby.etherscan.io/address/0x0ad6baf01c4b663de5e7fc5d517ae66678089e2b#code
+
+Oke creating `standard-input-json-remix.json` and `standard-output-json-remix.json`.
+
+
+    Deployment successful.
+    Address: 0x6b150A6457Bf4b904b0b20E2D1CADD6b226D963F
+
+Deploying with ethers.
+
+Intinya etherscan ga error, lu aja yang error bay wkwk
+
+- Deployed with Remix https://rinkeby.etherscan.io/address/0xc1873d26677ff30ed2b43861582ebf8da0b5d943
+- Verify contract via web using single file error
+- Verify contract via web using multi-json error
+- Verify contract via API using multi-json OK
+
+Submit via API berhasil dengan `standard-json-input-remix.json` mantapp.
+
+https://rinkeby.etherscan.io/sourcecode-demo.html
+
+https://rinkeby.etherscan.io/address/0xc1873d26677ff30ed2b43861582ebf8da0b5d943#code
+
+mantaapp

@@ -1,7 +1,7 @@
 {
     "language": "Solidity",
     "sources": {
-        "/Users/pyk/github/pyk/foundry-test-contract/src/ForgeDeploymentTest.sol": {
+        "": {
             "content": "// ███████  ██████  ██████   ██████  ███████\n// ██      ██    ██ ██   ██ ██       ██\n// █████   ██    ██ ██████  ██   ███ █████\n// ██      ██    ██ ██   ██ ██    ██ ██\n// ██       ██████  ██   ██  ██████  ███████\n// SPDX-License-Identifier: UNLICENSED\npragma solidity 0.8.10;\n\ncontract ForgeDeploymentTest {\n    function test() external pure returns (uint256) {\n        return 42;\n    }\n}\n"
         }
     },
@@ -15,24 +15,18 @@
         },
         "evmVersion": "london",
         "metadata": {
-            "useLiteralContent": true,
+            "useLiteralContent": false,
             "bytecodeHash": "none"
         },
         "outputSelection": {
             "*": {
                 "*": [
+                    "ast",
                     "abi",
                     "evm.bytecode",
                     "evm.deployedBytecode",
                     "evm.methodIdentifiers"
-                ],
-                "": [
-                    "ast",
-                    "id"
                 ]
-            },
-            "def": {
-                "ForgeDeploymentTest": [ "abi", "evm.bytecode.opcodes" ]
             }
           }
     }
